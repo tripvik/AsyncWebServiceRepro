@@ -72,6 +72,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AsyncUtils.cs" />
+    <Compile Include="ExceptionHandlingHandler.cs" />
+    <Compile Include="ExceptionHandlingHandlerFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestService.asmx.cs">
       <DependentUpon>TestService.asmx</DependentUpon>
