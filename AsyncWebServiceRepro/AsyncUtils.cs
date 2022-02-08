@@ -34,5 +34,28 @@ namespace AsyncWebServiceRepro
             }, TaskScheduler.Default);
             return tcs.Task;
         }
+
+        public static IAsyncResult AsApm(Task task,
+                            AsyncCallback callback,
+                            object state)
+        {
+            if (task == null)
+                throw new ArgumentNullException(nameof(task));
+
+            var tcs = new TaskCompletionSource<object>(state);
+            task.ContinueWith(t =>
+            {
+                if (t.IsFaulted)
+                    tcs.TrySetException(t.Exception.InnerExceptions);
+                else if (t.IsCanceled)
+                    tcs.TrySetCanceled();
+                else
+                    tcs.TrySetResult(null);
+
+                if (callback != null)
+                    callback(tcs.Task);
+            }, TaskScheduler.Default);
+            return tcs.Task;
+        }
     }
 }
